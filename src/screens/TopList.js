@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { orders } from '../data/orders'
 import ToggleButtons from '../components/ToggleButtons'
-import { useStore } from '../store/store'
+import { useStore, SET_ORDERS } from '../store/store'
 import {
   createOrdersWithTotalSum,
   groupByArray,
@@ -11,25 +11,28 @@ import {
 } from '../utils/arrays.utils'
 
 const TopList = () => {
-  const { state } = useStore()
+  const { state, dispatch } = useStore()
 
-  const [ordersWithTotalSum, setOrdersWithTotalSum] = useState(orders)
   const [groupedByArrayOutput, setGroupedByArrayOutput] = useState([])
   const [sortByArrayOutput, setSortByArrayOutput] = useState([])
 
   // we should add field Total = quantity * price from our data
   useEffect(() => {
-    const createdOrders = createOrdersWithTotalSum(ordersWithTotalSum)
+    const createdOrders = createOrdersWithTotalSum(orders)
     console.log('createOrdersWithTotalSum', createdOrders)
-    setOrdersWithTotalSum(createdOrders)
-  }, [orders])
+    dispatch({ type: SET_ORDERS, ordersWithTotalSum: createdOrders })
+  }, [dispatch])
 
   // we should resort our data by comaing orders by their IDs
   useEffect(() => {
-    const totalAndQuantityByKey = groupByArray(ordersWithTotalSum, 'productId')
+    const totalAndQuantityByKey = groupByArray(
+      state.ordersWithTotalSum,
+      'productId'
+    )
     setGroupedByArrayOutput(totalAndQuantityByKey)
-  }, [ordersWithTotalSum])
+  }, [state.ordersWithTotalSum])
 
+  // should show only 3 TOP results
   useEffect(() => {
     const sortedByValue = sortByValue(
       groupedByArrayOutput,
@@ -37,7 +40,7 @@ const TopList = () => {
       3
     )
     setSortByArrayOutput(sortedByValue)
-  }, [sortByValue, state.totalQuantityToggle, groupedByArrayOutput])
+  }, [state.totalQuantityToggle, groupedByArrayOutput])
 
   return (
     <div>

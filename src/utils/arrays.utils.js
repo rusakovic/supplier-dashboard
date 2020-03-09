@@ -2,14 +2,16 @@ import _ from 'lodash'
 
 // we should add field Total = quantity * price from our data
 // transform quantity to integer by adding '+'
-export const createOrdersWithTotalSum = ordersWithTotalSum =>
-  ordersWithTotalSum.map(order => {
+export const createOrdersWithTotalSum = orders => {
+  const ordersWithSum = orders.map(order => {
     return {
       ...order,
       total: +(order.quantity * order.price),
       quantity: +order.quantity
     }
   })
+  return ordersWithSum
+}
 
 // grouping and summing orders by Product IDs for further sorting
 export const groupByArray = (orders, groupOrdersBy) => {
