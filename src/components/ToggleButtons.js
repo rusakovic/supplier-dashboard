@@ -1,44 +1,41 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-
-const useStyles = makeStyles(theme => ({
-  toggleContainer: {
-    margin: theme.spacing(2, 0)
-  }
-}))
+import { useStore, TOTAL_QUANTITY_TOGGLE } from '../store/store'
 
 const ToggleButtons = () => {
-  const [alignment, setAlignment] = React.useState('left')
+  const { state, dispatch } = useStore()
 
-  const handleAlignment = (event, newAlignment) => {
-    if (newAlignment !== null) {
-      setAlignment(newAlignment)
+  const [toggle, setToggle] = React.useState('total')
+
+  const handleAlignment = (event, selectedToggle) => {
+    console.log('newAlignment', selectedToggle)
+    if (toggle !== null) {
+      setToggle(selectedToggle)
+      dispatch({
+        type: TOTAL_QUANTITY_TOGGLE,
+        totalQuantityToggle: selectedToggle
+      })
     }
   }
 
-  const classes = useStyles()
-
   return (
     <Grid item sm={12} md={6}>
-      <div className={classes.toggleContainer}>
-        <ToggleButtonGroup
-          value={alignment}
-          exclusive
-          onChange={handleAlignment}
-          aria-label='text alignment'
-        >
-          <ToggleButton value='left' aria-label='left aligned'>
-            volume
-          </ToggleButton>
-          <ToggleButton value='center' aria-label='centered'>
-            quantity
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </div>
+      <ToggleButtonGroup
+        value={toggle}
+        exclusive
+        onChange={handleAlignment}
+        aria-label='text alignment'
+      >
+        <ToggleButton value='total' aria-label='left aligned'>
+          volume
+        </ToggleButton>
+        <ToggleButton value='quantity' aria-label='centered'>
+          quantity
+        </ToggleButton>
+      </ToggleButtonGroup>
     </Grid>
   )
 }

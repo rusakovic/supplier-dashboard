@@ -4,8 +4,11 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { orders } from '../data/orders'
 import ToggleButtons from '../components/ToggleButtons'
+import { useStore } from '../store/store'
 
 const TopList = () => {
+  const { state } = useStore()
+
   const [ordersWithTotalSum, setOrdersWithTotalSum] = useState(orders)
   const [groupedByArrayOutput, setGroupedByArrayOutput] = useState([])
   const [sortByArrayOutput, setSortByArrayOutput] = useState([])
@@ -59,11 +62,13 @@ const TopList = () => {
 
   return (
     <div>
-      <ToggleButtons />
       <h2>TOP 3 Purchased products</h2>
-      {sortByValue(groupedByArrayOutput, 'total', 3).map(order => {
-        return <h5 key={uuidv4()}>{order.productName}</h5>
-      })}
+      <ToggleButtons />
+      {sortByValue(groupedByArrayOutput, state.totalQuantityToggle, 3).map(
+        order => {
+          return <h5 key={uuidv4()}>{order.productName}</h5>
+        }
+      )}
     </div>
   )
 }
