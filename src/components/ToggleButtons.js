@@ -6,10 +6,11 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { useStore, TOTAL_QUANTITY_TOGGLE } from '../store/store'
 
 const ToggleButtons = () => {
-  const { state, dispatch } = useStore()
+  const { dispatch } = useStore()
 
   const [toggle, setToggle] = React.useState('total')
 
+  //toogle the state according to selected button
   const handleAlignment = (event, selectedToggle) => {
     console.log('newAlignment', selectedToggle)
     if (toggle !== null) {

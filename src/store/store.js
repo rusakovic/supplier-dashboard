@@ -14,6 +14,8 @@ const reducer = (state, action) => {
         ...state,
         totalQuantityToggle: action.totalQuantityToggle
       }
+    default:
+      return state
   }
 }
 
