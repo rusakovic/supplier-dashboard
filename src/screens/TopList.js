@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { orders } from '../data/orders'
 import ToggleButtons from '../components/ToggleButtons'
-import { useStore, SET_ORDERS } from '../store/store'
+import { useStore, SET_ORDERS, TOTAL_QUANTITY_TOGGLE } from '../store/store'
 import {
   createOrdersWithTotalSum,
   groupByArray,
@@ -44,7 +44,7 @@ const TopList = () => {
   return (
     <div>
       <h2>TOP 3 Purchased products</h2>
-      <ToggleButtons />
+      <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE} />
       {sortByArrayOutput.map(order => {
         return <h5 key={uuidv4()}>{order.productName}</h5>
       })}

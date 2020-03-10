@@ -3,9 +3,9 @@ import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-import { useStore, TOTAL_QUANTITY_TOGGLE } from '../store/store'
+import { useStore } from '../store/store'
 
-const ToggleButtons = () => {
+const ToggleButtons = ({ actionType }) => {
   const { dispatch } = useStore()
 
   const [toggle, setToggle] = React.useState('total')
@@ -16,7 +16,7 @@ const ToggleButtons = () => {
     if (toggle !== null) {
       setToggle(selectedToggle)
       dispatch({
-        type: TOTAL_QUANTITY_TOGGLE,
+        type: actionType,
         totalQuantityToggle: selectedToggle
       })
     }
