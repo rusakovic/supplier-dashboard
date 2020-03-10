@@ -3,10 +3,12 @@ import React, { createContext, useReducer, useContext } from 'react'
 export const TOTAL_QUANTITY_TOGGLE = 'TOTAL_QUANTITY_TOGGLE'
 export const SET_ORDERS = 'SET_ORDERS'
 export const SET_TOTAL_ORDERS_VOLUME = 'SET_TOTAL_ORDERS_VOLUME'
+export const TOTAL_QUANTITY_TOGGLE_SUPPLIERS = 'TOTAL_QUANTITY_TOGGLE_SUPPLIERS'
 
 export const StoreContext = createContext(null)
 const initialState = {
   totalQuantityToggle: 'total',
+  totalQuantityToggleSuppliers: 'total',
   ordersWithTotalSum: [],
   totalOrdersVolume: []
 }
@@ -17,6 +19,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         totalQuantityToggle: action.totalQuantityToggle
+      }
+    case TOTAL_QUANTITY_TOGGLE_SUPPLIERS:
+      return {
+        ...state,
+        totalQuantityToggleSuppliers: action.totalQuantityToggle
       }
     case SET_ORDERS:
       return {

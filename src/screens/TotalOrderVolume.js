@@ -5,7 +5,8 @@ import Select from 'react-select'
 
 import {
   transformDataForDropdowns,
-  transformedSelectedFilters
+  transformedSelectedFilters,
+  groupedBy
 } from '../utils/arrays.utils'
 import ResponsiveLineComponent from '../components/ResponsiveLine'
 
@@ -39,15 +40,13 @@ const TotalOrderVolume = () => {
       setFilteredOrdersOutput(ordersWithTotalSum)
     }
 
-    // group data by Date
-    const groupedByOrderedOn = _.groupBy(filteredOrdersOutput, 'orderedOn')
-    // x - orderedOn, y - total
-    const orderedOnAndTotal = _(groupedByOrderedOn)
-      .map((obj, key) => ({
-        x: key,
-        y: _(_(obj).sumBy('total')).round(2)
-      }))
-      .value()
+    // group data by Date (orderedOn)
+    const orderedOnAndTotal = groupedBy(
+      filteredOrdersOutput,
+      'orderedOn',
+      'total',
+      'line'
+    )
 
     // +++++++++++++++++++++++++++++++++++++++++++++
     // transform data according to ResponsiveLine component

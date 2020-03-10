@@ -24,18 +24,9 @@ const ToggleButtons = ({ actionType }) => {
 
   return (
     <Grid item sm={12} md={6}>
-      <ToggleButtonGroup
-        value={toggle}
-        exclusive
-        onChange={handleAlignment}
-        aria-label='text alignment'
-      >
-        <ToggleButton value='total' aria-label='left aligned'>
-          volume
-        </ToggleButton>
-        <ToggleButton value='quantity' aria-label='centered'>
-          quantity
-        </ToggleButton>
+      <ToggleButtonGroup value={toggle} exclusive onChange={handleAlignment}>
+        <ToggleButton value='total'>volume (‎€)</ToggleButton>
+        <ToggleButton value='quantity'>quantity</ToggleButton>
       </ToggleButtonGroup>
     </Grid>
   )
