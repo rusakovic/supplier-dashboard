@@ -17,7 +17,7 @@ export const createOrdersWithTotalSum = orders => {
 export const groupByArray = (orders, groupOrdersBy) => {
   const grouped = _.groupBy(orders, groupOrdersBy)
 
-  console.log('grouped', grouped)
+  // console.log('grouped', grouped)
   const totalAndQuantityByKey = _(grouped)
     .map((obj, key) => ({
       productId: key,
@@ -27,7 +27,7 @@ export const groupByArray = (orders, groupOrdersBy) => {
     }))
     .value()
 
-  console.log('totalAndQuantityByKey', totalAndQuantityByKey)
+  // console.log('totalAndQuantityByKey', totalAndQuantityByKey)
   return totalAndQuantityByKey
 }
 
@@ -37,6 +37,35 @@ export const sortByValue = (orders, sortBy, numberToDisplay) => {
     .orderBy([sortBy], ['desc'])
     .value()
     .slice(0, numberToDisplay)
-  console.log('sortedArray', sortedArray)
+  // console.log('sortedArray', sortedArray)
   return sortedArray
+}
+
+// transform data for filters dropdown
+// for example
+// const Countries = [
+// { label: 'Albania', value: 355 },
+// { label: 'Argentina', value: 54 },
+// ]
+export const transformDataForDropdowns = (ordersWithTotalSum, groupName) => {
+  const groupedBySupplier = _.groupBy(ordersWithTotalSum, groupName)
+  // console.log('groupedBySupplier', groupedBySupplier)
+
+  const groupLabelAndValue = _(groupedBySupplier)
+    .map((obj, key) => ({
+      label: key,
+      value: key
+    }))
+    .value()
+  return groupLabelAndValue
+}
+
+// extract value of filters from {label: "food", value: "food"} => ["food"]
+// return empty [] if filters not selected
+export const transformedSelectedFilters = selectedFilters => {
+  return (
+    selectedFilters?.map(filter => {
+      return filter.value
+    }) ?? []
+  )
 }

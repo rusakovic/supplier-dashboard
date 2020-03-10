@@ -19,7 +19,6 @@ const TopList = () => {
   // we should add field Total = quantity * price from our data
   useEffect(() => {
     const createdOrders = createOrdersWithTotalSum(orders)
-    console.log('createOrdersWithTotalSum', createdOrders)
     dispatch({ type: SET_ORDERS, ordersWithTotalSum: createdOrders })
   }, [dispatch])
 

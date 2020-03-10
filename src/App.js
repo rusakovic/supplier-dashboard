@@ -6,6 +6,7 @@ import SupplierRank from './screens/SupplierRank'
 import DeliveryList from './screens/DeliveryList'
 
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return (

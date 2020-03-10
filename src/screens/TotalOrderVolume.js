@@ -1,106 +1,188 @@
-import React, { useEffect } from 'react'
-import { ResponsiveLine } from '@nivo/line'
+import React, { useEffect, useState } from 'react'
 import { useStore, SET_TOTAL_ORDERS_VOLUME } from '../store/store'
 import _ from 'lodash'
-import { groupByArray } from '../utils/arrays.utils'
+import Select from 'react-select'
+
+import {
+  transformDataForDropdowns,
+  transformedSelectedFilters
+} from '../utils/arrays.utils'
+import ResponsiveLineComponent from '../components/ResponsiveLine'
 
 const TotalOrderVolume = () => {
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // STATES
   const { state, dispatch } = useStore()
   const ordersWithTotalSum = state.ordersWithTotalSum
-  useEffect(() => {
-    const groupedByOrderedOn = _.groupBy(ordersWithTotalSum, 'orderedOn')
-    console.log('result', groupedByOrderedOn)
+  const [suppliersForFiltering, setSuppliersForFiltering] = useState([])
+  const [categoryForFiltering, setCategoryForFiltering] = useState([])
+  const [subCategoryForFiltering, setSubCategoryForFiltering] = useState([])
+  const [selectedFilters, setSelectedFilters] = useState({
+    suppliers: [],
+    productCategory1: [],
+    productCategory2: []
+  })
+  const [filteredOrdersOutput, setFilteredOrdersOutput] = useState(
+    ordersWithTotalSum
+  )
 
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // transform orders data for graph presentation
+  useEffect(() => {
+    // if filters not selected we should reset initial data to 'ordersWithTotalSum',
+    // else - show filtered data
+    if (
+      selectedFilters.suppliers.length === 0 &&
+      selectedFilters.productCategory1.length === 0 &&
+      selectedFilters.productCategory2.length === 0
+    ) {
+      setFilteredOrdersOutput(ordersWithTotalSum)
+    }
+
+    // group data by Date
+    const groupedByOrderedOn = _.groupBy(filteredOrdersOutput, 'orderedOn')
     // x - orderedOn, y - total
     const orderedOnAndTotal = _(groupedByOrderedOn)
       .map((obj, key) => ({
         x: key,
-        y: _(obj).sumBy('total')
+        y: _(_(obj).sumBy('total')).round(2)
       }))
       .value()
-    console.log('orderedOnAndTotal', orderedOnAndTotal)
+
+    // +++++++++++++++++++++++++++++++++++++++++++++
+    // transform data according to ResponsiveLine component
+    // https://nivo.rocks/line/ -> tab 'data'
     let formatedArrayForGraph = []
     formatedArrayForGraph.push({
       id: 'orders',
-      color: 'hsl(340, 70%, 50%)',
       data: orderedOnAndTotal
     })
-    console.log('formatedArrayForGraph', formatedArrayForGraph)
+
+    // set data to global store
     dispatch({
       type: SET_TOTAL_ORDERS_VOLUME,
       totalOrdersVolume: formatedArrayForGraph
     })
-  }, [ordersWithTotalSum])
+  }, [filteredOrdersOutput, dispatch, ordersWithTotalSum])
+
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // transform data for filters dropdown
+  useEffect(() => {
+    // SUPLLIERS
+    const suppliers = transformDataForDropdowns(
+      filteredOrdersOutput,
+      'supplier'
+    )
+    setSuppliersForFiltering(suppliers)
+
+    // CATEGORY
+    const category = transformDataForDropdowns(
+      filteredOrdersOutput,
+      'productCategory1'
+    )
+    setCategoryForFiltering(category)
+
+    // SUBCATEGORY
+    const subCategory = transformDataForDropdowns(
+      filteredOrdersOutput,
+      'productCategory2'
+    )
+    setSubCategoryForFiltering(subCategory)
+  }, [ordersWithTotalSum, filteredOrdersOutput])
+
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // filtering data for graph with filters
+  useEffect(() => {
+    const filreredOrdersWithTotalSum = ordersWithTotalSum.filter(
+      ({ supplier, productCategory1, productCategory2 }) => {
+        const isSupplierFiltered = !!selectedFilters.suppliers.length
+          ? selectedFilters.suppliers.includes(supplier)
+          : true
+        const isCategoryFiltered = selectedFilters.productCategory1.length
+          ? selectedFilters.productCategory1.includes(productCategory1)
+          : true
+        const isSubCategoryFiltered = selectedFilters.productCategory2.length
+          ? selectedFilters.productCategory2.includes(productCategory2)
+          : true
+        return (
+          // return true if filter is empty
+          isSupplierFiltered && isCategoryFiltered && isSubCategoryFiltered
+        )
+      }
+    )
+    setFilteredOrdersOutput(filreredOrdersWithTotalSum)
+  }, [selectedFilters, ordersWithTotalSum])
+
+  // +++++++++++++++++++++++++++++++++++++++++++++
+  // HANDLERS FOR DROPDOWN MENUS
+  // handler when Supplier is chosen
+  const supplierFilterOnChangeHandler = selectedSuppliers => {
+    // return empty [] if filters not selected
+    const transformedSelectedSuppliers = transformedSelectedFilters(
+      selectedSuppliers
+    )
+
+    setSelectedFilters(prevState => {
+      return {
+        ...prevState,
+        suppliers: transformedSelectedSuppliers
+      }
+    })
+  }
+
+  // handler when Category is chosen
+  const categoryFilterOnChangeHandler = selectedCategories => {
+    // return empty [] if filters not selected
+    const transformedSelectedCategories = transformedSelectedFilters(
+      selectedCategories
+    )
+
+    setSelectedFilters(prevState => {
+      return {
+        ...prevState,
+        productCategory1: transformedSelectedCategories
+      }
+    })
+  }
+
+  // handler when subCategory is chosen
+  const subCategoryFilterOnChangeHandler = selectedSubCategories => {
+    // return empty [] if filters not selected
+    const transformedSelectedSubCategories = transformedSelectedFilters(
+      selectedSubCategories
+    )
+
+    setSelectedFilters(prevState => {
+      return {
+        ...prevState,
+        productCategory2: transformedSelectedSubCategories
+      }
+    })
+  }
 
   return (
-    <div style={{ height: 500 }}>
+    <div>
       <h2>TotalOrderVolume</h2>
-      <ResponsiveLine
-        data={state.totalOrdersVolume}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{ type: 'point' }}
-        yScale={{
-          type: 'linear',
-          min: 'auto',
-          max: 'auto',
-          stacked: true,
-          reverse: false
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          orient: 'bottom',
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'transportation',
-          legendOffset: 36,
-          legendPosition: 'middle'
-        }}
-        axisLeft={{
-          orient: 'left',
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'count',
-          legendOffset: -40,
-          legendPosition: 'middle'
-        }}
-        colors={{ scheme: 'nivo' }}
-        pointSize={10}
-        pointColor={{ theme: 'background' }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: 'serieColor' }}
-        pointLabel='y'
-        pointLabelYOffset={-12}
-        useMesh={true}
-        legends={[
-          {
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: false,
-            translateX: 100,
-            translateY: 0,
-            itemsSpacing: 0,
-            itemDirection: 'left-to-right',
-            itemWidth: 80,
-            itemHeight: 20,
-            itemOpacity: 0.75,
-            symbolSize: 12,
-            symbolShape: 'circle',
-            symbolBorderColor: 'rgba(0, 0, 0, .5)',
-            effects: [
-              {
-                on: 'hover',
-                style: {
-                  itemBackground: 'rgba(0, 0, 0, .03)',
-                  itemOpacity: 1
-                }
-              }
-            ]
-          }
-        ]}
+      <Select
+        placeholder='Select supplier'
+        options={suppliersForFiltering}
+        isMulti
+        onChange={e => supplierFilterOnChangeHandler(e)}
       />
+      <Select
+        placeholder='Select category'
+        options={categoryForFiltering}
+        isMulti
+        onChange={e => categoryFilterOnChangeHandler(e)}
+      />
+      <Select
+        placeholder='Select subcategory'
+        options={subCategoryForFiltering}
+        isMulti
+        onChange={e => subCategoryFilterOnChangeHandler(e)}
+      />
+
+      <ResponsiveLineComponent data={state.totalOrdersVolume} />
     </div>
   )
 }
