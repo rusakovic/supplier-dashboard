@@ -13,7 +13,7 @@ const ToggleButtons = ({ actionType }) => {
   //toogle the state according to selected button
   const handleAlignment = (event, selectedToggle) => {
     console.log('newAlignment', selectedToggle)
-    if (toggle !== null) {
+    if (selectedToggle !== null) {
       setToggle(selectedToggle)
       dispatch({
         type: actionType,
