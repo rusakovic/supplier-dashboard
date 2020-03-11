@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useStore, SET_TOTAL_ORDERS_VOLUME } from '../store/store'
 import _ from 'lodash'
 import Select from 'react-select'
+import { SortableElement } from 'react-sortable-hoc'
 
 import {
   transformDataForDropdowns,
@@ -9,6 +10,7 @@ import {
   groupedBy
 } from '../utils/arrays.utils'
 import ResponsiveLineComponent from '../components/ResponsiveLine'
+import DragHandle from '../components/DragHandle'
 
 const TotalOrderVolume = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++
@@ -161,29 +163,32 @@ const TotalOrderVolume = () => {
 
   return (
     <div>
-      <h2>TotalOrderVolume</h2>
-      <Select
-        placeholder='Select supplier'
-        options={suppliersForFiltering}
-        isMulti
-        onChange={e => supplierFilterOnChangeHandler(e)}
-      />
-      <Select
-        placeholder='Select category'
-        options={categoryForFiltering}
-        isMulti
-        onChange={e => categoryFilterOnChangeHandler(e)}
-      />
-      <Select
-        placeholder='Select subcategory'
-        options={subCategoryForFiltering}
-        isMulti
-        onChange={e => subCategoryFilterOnChangeHandler(e)}
-      />
+      <DragHandle />
+      <div>
+        <h2>TotalOrderVolume</h2>
+        <Select
+          placeholder='Select supplier'
+          options={suppliersForFiltering}
+          isMulti
+          onChange={e => supplierFilterOnChangeHandler(e)}
+        />
+        <Select
+          placeholder='Select category'
+          options={categoryForFiltering}
+          isMulti
+          onChange={e => categoryFilterOnChangeHandler(e)}
+        />
+        <Select
+          placeholder='Select subcategory'
+          options={subCategoryForFiltering}
+          isMulti
+          onChange={e => subCategoryFilterOnChangeHandler(e)}
+        />
 
-      <ResponsiveLineComponent data={state.totalOrdersVolume} />
+        <ResponsiveLineComponent data={state.totalOrdersVolume} />
+      </div>
     </div>
   )
 }
 
-export default TotalOrderVolume
+export default SortableElement(TotalOrderVolume)

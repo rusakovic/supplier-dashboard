@@ -81,6 +81,7 @@ export const groupedBy = (array, groupBy, sumBy, graphType) => {
         y: _(_(obj).sumBy(sumBy)).round(2)
       }))
       .value()
+    console.log('transformedWithTotal', transformedWithTotal)
     return transformedWithTotal
   } else if (graphType === 'bar') {
     const transformedWithTotal = _(groupByParametr)

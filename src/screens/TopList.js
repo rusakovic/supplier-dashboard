@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { SortableElement } from 'react-sortable-hoc'
 
 import { orders } from '../data/orders'
 import ToggleButtons from '../components/ToggleButtons'
@@ -9,6 +10,7 @@ import {
   groupByArray,
   sortByValue
 } from '../utils/arrays.utils'
+import DragHandle from '../components/DragHandle'
 
 const TopList = () => {
   const { state, dispatch } = useStore()
@@ -43,13 +45,16 @@ const TopList = () => {
 
   return (
     <div>
-      <h2>TOP 3 Purchased products</h2>
-      <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE} />
-      {sortByArrayOutput.map(order => {
-        return <h5 key={uuidv4()}>{order.productName}</h5>
-      })}
+      <DragHandle />
+      <div>
+        <h2>TOP 3 Purchased products</h2>
+        <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE} />
+        {sortByArrayOutput.map(order => {
+          return <h5 key={uuidv4()}>{order.productName}</h5>
+        })}
+      </div>
     </div>
   )
 }
 
-export default TopList
+export default SortableElement(TopList)
