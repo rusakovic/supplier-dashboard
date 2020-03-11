@@ -18,14 +18,12 @@ const SupplierRank = () => {
   const ordersWithTotalSum = state.ordersWithTotalSum
 
   useEffect(() => {
-    console.log('ordersWithTotalSum', ordersWithTotalSum)
     const groupedBySupplier = groupedBy(
       ordersWithTotalSum,
       'supplier',
       state.totalQuantityToggleSuppliers,
       'bar'
     )
-    console.log('groupedBySupplier', groupedBySupplier)
     setData(groupedBySupplier)
   }, [ordersWithTotalSum, state.totalQuantityToggleSuppliers])
 

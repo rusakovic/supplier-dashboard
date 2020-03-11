@@ -17,7 +17,6 @@ export const createOrdersWithTotalSum = orders => {
 export const groupByArray = (orders, groupOrdersBy) => {
   const grouped = _.groupBy(orders, groupOrdersBy)
 
-  // console.log('grouped', grouped)
   const totalAndQuantityByKey = _(grouped)
     .map((obj, key) => ({
       productId: key,
@@ -27,7 +26,6 @@ export const groupByArray = (orders, groupOrdersBy) => {
     }))
     .value()
 
-  // console.log('totalAndQuantityByKey', totalAndQuantityByKey)
   return totalAndQuantityByKey
 }
 
@@ -37,7 +35,6 @@ export const sortByValue = (orders, sortBy, numberToDisplay) => {
     .orderBy([sortBy], ['desc'])
     .value()
     .slice(0, numberToDisplay)
-  // console.log('sortedArray', sortedArray)
   return sortedArray
 }
 
@@ -81,7 +78,6 @@ export const groupedBy = (array, groupBy, sumBy, graphType) => {
         y: _(_(obj).sumBy(sumBy)).round(2)
       }))
       .value()
-    console.log('transformedWithTotal', transformedWithTotal)
     return transformedWithTotal
   } else if (graphType === 'bar') {
     const transformedWithTotal = _(groupByParametr)

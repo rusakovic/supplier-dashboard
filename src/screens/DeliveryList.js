@@ -17,14 +17,12 @@ const DeliveryList = () => {
 
   useEffect(() => {
     const groupByParametr = _.groupBy(ordersWithTotalSum, 'orderedOn')
-    console.log('groupByParametr', groupByParametr)
     const groupBySupplier = _(groupByParametr)
       .map((obj, key) => {
         //group products
         const group = _(obj)
           .groupBy('supplier')
           .map((obj, key) => {
-            console.log('obj.productId', obj)
             return {
               id: key,
               name: key,
@@ -37,7 +35,6 @@ const DeliveryList = () => {
             }
           })
           .value()
-        console.log('group', group)
         // group by supplier
         return {
           id: key,
@@ -46,7 +43,6 @@ const DeliveryList = () => {
         }
       })
       .value()
-    console.log('groupBySupplier', groupBySupplier)
 
     // combine to Root object
     const toObject = {
@@ -54,7 +50,6 @@ const DeliveryList = () => {
       name: 'Orders by day',
       children: groupBySupplier
     }
-    console.log('toObject', toObject)
     setData(toObject)
   }, [ordersWithTotalSum])
 
