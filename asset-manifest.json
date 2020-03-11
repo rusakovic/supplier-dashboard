@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/supplier-dashboard/static/css/main.4a541119.chunk.css",
+    "main.js": "/supplier-dashboard/static/js/main.e76d25b2.chunk.js",
+    "main.js.map": "/supplier-dashboard/static/js/main.e76d25b2.chunk.js.map",
+    "runtime-main.js": "/supplier-dashboard/static/js/runtime-main.0989caef.js",
+    "runtime-main.js.map": "/supplier-dashboard/static/js/runtime-main.0989caef.js.map",
+    "static/css/2.de424728.chunk.css": "/supplier-dashboard/static/css/2.de424728.chunk.css",
+    "static/js/2.15e37fbf.chunk.js": "/supplier-dashboard/static/js/2.15e37fbf.chunk.js",
+    "static/js/2.15e37fbf.chunk.js.map": "/supplier-dashboard/static/js/2.15e37fbf.chunk.js.map",
+    "index.html": "/supplier-dashboard/index.html",
+    "precache-manifest.8a4525f55b433ec9eea4f5def7d5e9bd.js": "/supplier-dashboard/precache-manifest.8a4525f55b433ec9eea4f5def7d5e9bd.js",
+    "service-worker.js": "/supplier-dashboard/service-worker.js",
+    "static/css/2.de424728.chunk.css.map": "/supplier-dashboard/static/css/2.de424728.chunk.css.map",
+    "static/css/main.4a541119.chunk.css.map": "/supplier-dashboard/static/css/main.4a541119.chunk.css.map",
+    "static/js/2.15e37fbf.chunk.js.LICENSE.txt": "/supplier-dashboard/static/js/2.15e37fbf.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0989caef.js",
+    "static/css/2.de424728.chunk.css",
+    "static/js/2.15e37fbf.chunk.js",
+    "static/css/main.4a541119.chunk.css",
+    "static/js/main.e76d25b2.chunk.js"
+  ]
+}
