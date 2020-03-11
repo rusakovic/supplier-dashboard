@@ -87,8 +87,17 @@ const TotalOrderVolume = () => {
     setCategoryForFiltering(category)
 
     // SUBCATEGORY
+    let outputArray
+    if (
+      selectedFilters.suppliers.length === 0 &&
+      selectedFilters.productCategory1.length === 0
+    ) {
+      outputArray = ordersWithTotalSum
+    } else {
+      outputArray = filteredOrdersOutput
+    }
     const subCategory = transformDataForDropdowns(
-      filteredOrdersOutput,
+      outputArray,
       'productCategory2'
     )
     setSubCategoryForFiltering(subCategory)
