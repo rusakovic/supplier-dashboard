@@ -1,9 +1,10 @@
 import React from 'react'
 
-import Grid from '@material-ui/core/Grid'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import { useStore } from '../store/store'
+
+import '../styles/general.styles.css'
 
 const ToggleButtons = ({ actionType }) => {
   const { dispatch } = useStore()
@@ -23,12 +24,12 @@ const ToggleButtons = ({ actionType }) => {
   }
 
   return (
-    <Grid item sm={12} md={6}>
+    <div className='margin-T-2'>
       <ToggleButtonGroup value={toggle} exclusive onChange={handleAlignment}>
         <ToggleButton value='total'>volume (‎€)</ToggleButton>
         <ToggleButton value='quantity'>quantity</ToggleButton>
       </ToggleButtonGroup>
-    </Grid>
+    </div>
   )
 }
 

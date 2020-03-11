@@ -1,0 +1,21 @@
+.margin-TB-5 {
+  margin: 5% 0;
+}
+
+.margin-T-2 {
+  margin-top: 2%;
+}
+
+.margin-B-2 {
+  margin-bottom: 2%;
+}
+
+.graph-container {
+  width: 100%;
+}
+
+.align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

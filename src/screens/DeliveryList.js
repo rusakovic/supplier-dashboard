@@ -6,6 +6,9 @@ import { useStore } from '../store/store'
 import TreeItemComponent from '../components/TreeItem'
 import DragHandle from '../components/DragHandle'
 
+import '../styles/card.styles.css'
+import '../styles/general.styles.css'
+
 const DeliveryList = () => {
   const { state } = useStore()
   const ordersWithTotalSum = state.ordersWithTotalSum
@@ -56,11 +59,13 @@ const DeliveryList = () => {
   }, [ordersWithTotalSum])
 
   return (
-    <div>
+    <div className='handler'>
       <DragHandle />
-      <div>
-        <h2>Delivery List</h2>
-        {data.length !== 0 && <TreeItemComponent data={data} />}
+      <div className='card-shadow card-container'>
+        <h2 className='margin-T-2'>Delivery List</h2>
+        <div style={{ height: '100%', minHeight: '250px' }}>
+          {data.length !== 0 && <TreeItemComponent data={data} />}
+        </div>
       </div>
     </div>
   )

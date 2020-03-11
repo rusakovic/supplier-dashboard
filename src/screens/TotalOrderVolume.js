@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useStore, SET_TOTAL_ORDERS_VOLUME } from '../store/store'
-import _ from 'lodash'
 import Select from 'react-select'
 import { SortableElement } from 'react-sortable-hoc'
 
@@ -11,6 +10,10 @@ import {
 } from '../utils/arrays.utils'
 import ResponsiveLineComponent from '../components/ResponsiveLine'
 import DragHandle from '../components/DragHandle'
+
+import '../styles/card.styles.css'
+import '../styles/general.styles.css'
+import '../styles/TotalOrderVolume.components.css'
 
 const TotalOrderVolume = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++
@@ -162,30 +165,36 @@ const TotalOrderVolume = () => {
   }
 
   return (
-    <div>
+    <div className='handler'>
       <DragHandle />
-      <div>
-        <h2>TotalOrderVolume</h2>
-        <Select
-          placeholder='Select supplier'
-          options={suppliersForFiltering}
-          isMulti
-          onChange={e => supplierFilterOnChangeHandler(e)}
-        />
-        <Select
-          placeholder='Select category'
-          options={categoryForFiltering}
-          isMulti
-          onChange={e => categoryFilterOnChangeHandler(e)}
-        />
-        <Select
-          placeholder='Select subcategory'
-          options={subCategoryForFiltering}
-          isMulti
-          onChange={e => subCategoryFilterOnChangeHandler(e)}
-        />
-
-        <ResponsiveLineComponent data={state.totalOrdersVolume} />
+      <div className='card-shadow card-container'>
+        <h2 className='margin-T-2'>Total Order Volume</h2>
+        <div className='dropdown-menu-container margin-T-2'>
+          <Select
+            className='dropdown-menu-item'
+            placeholder='Select supplier'
+            options={suppliersForFiltering}
+            isMulti
+            onChange={e => supplierFilterOnChangeHandler(e)}
+          />
+          <Select
+            className='dropdown-menu-item'
+            placeholder='Select category'
+            options={categoryForFiltering}
+            isMulti
+            onChange={e => categoryFilterOnChangeHandler(e)}
+          />
+          <Select
+            className='dropdown-menu-item'
+            placeholder='Select subcategory'
+            options={subCategoryForFiltering}
+            isMulti
+            onChange={e => subCategoryFilterOnChangeHandler(e)}
+          />
+        </div>
+        <div className='graph-container'>
+          <ResponsiveLineComponent data={state.totalOrdersVolume} />
+        </div>
       </div>
     </div>
   )

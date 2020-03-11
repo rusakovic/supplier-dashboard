@@ -1,0 +1,10 @@
+.dropdown-menu-container {
+  display: flex;
+  align-content: space-between;
+  width: 95%;
+}
+
+.dropdown-menu-item {
+  width: 100%;
+  margin: 0 1%;
+}

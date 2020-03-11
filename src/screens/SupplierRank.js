@@ -7,6 +7,9 @@ import { groupedBy } from '../utils/arrays.utils'
 import ResponsiveBarComponent from '../components/ResponsiveBar'
 import DragHandle from '../components/DragHandle'
 
+import '../styles/card.styles.css'
+import '../styles/general.styles.css'
+
 const SupplierRank = () => {
   // +++++++++++++++++++++++++++++++++++++++++++++
   // STATES
@@ -27,12 +30,14 @@ const SupplierRank = () => {
   }, [ordersWithTotalSum, state.totalQuantityToggleSuppliers])
 
   return (
-    <div>
+    <div className='handler'>
       <DragHandle />
-      <div>
-        <h2>SupplierRank</h2>
+      <div className='card-shadow card-container'>
+        <h2 className='margin-T-2'>SupplierRank</h2>
         <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE_SUPPLIERS} />
-        <ResponsiveBarComponent data={data} />
+        <div className='graph-container'>
+          <ResponsiveBarComponent data={data} />
+        </div>
       </div>
     </div>
   )

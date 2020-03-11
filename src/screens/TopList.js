@@ -11,7 +11,9 @@ import {
   sortByValue
 } from '../utils/arrays.utils'
 import DragHandle from '../components/DragHandle'
+
 import '../styles/card.styles.css'
+import '../styles/general.styles.css'
 
 const TopList = () => {
   const { state, dispatch } = useStore()
@@ -48,11 +50,17 @@ const TopList = () => {
     <div className='handler'>
       <DragHandle />
       <div className='card-shadow card-container'>
-        <h2>TOP 3 Purchased products</h2>
+        <h2 className='margin-T-2'>TOP 3 Purchased products</h2>
         <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE} />
-        {sortByArrayOutput.map(order => {
-          return <h5 key={uuidv4()}>{order.productName}</h5>
-        })}
+        <div className='margin-TB-5 align-center'>
+          {sortByArrayOutput.map((order, index) => {
+            return (
+              <h5 key={uuidv4()}>
+                {index + 1}. {order.productName.toUpperCase()}
+              </h5>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
