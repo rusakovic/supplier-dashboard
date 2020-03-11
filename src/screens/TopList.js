@@ -11,6 +11,7 @@ import {
   sortByValue
 } from '../utils/arrays.utils'
 import DragHandle from '../components/DragHandle'
+import '../styles/card.styles.css'
 
 const TopList = () => {
   const { state, dispatch } = useStore()
@@ -44,9 +45,9 @@ const TopList = () => {
   }, [state.totalQuantityToggle, groupedByArrayOutput])
 
   return (
-    <div>
+    <div className='handler'>
       <DragHandle />
-      <div>
+      <div className='card-shadow card-container'>
         <h2>TOP 3 Purchased products</h2>
         <ToggleButtons actionType={TOTAL_QUANTITY_TOGGLE} />
         {sortByArrayOutput.map(order => {
